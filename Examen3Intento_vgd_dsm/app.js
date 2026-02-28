@@ -8,9 +8,9 @@ const btnGetResultado = document.querySelector("#btnGetResultado");
  
 const getNews = async () => {
 
-    //Try catch para mostrar texto si no hay ningún resultado
+    //Try catch para saber si hay fallas en la API
     try{
-        //Validar que ningún campo esté vacío
+        //Validar que el campo palabra clave no esté vacía
         if(!(qInput.value.trim() === "")){
 
              const response = await fetch(
@@ -21,42 +21,64 @@ const getNews = async () => {
              const data =  await response.json();
              console.log(data);
 
+            //Limpieza de variables
+            fromInput.value = "";
+            toInput.value = "";
+            qInput.value = "";
+
+            //Comprobar mediante el atributo totalResults si hay resultados o no
+            if (data.totalResults != 0) {
+              
+            
+            //Limpiar el contentData
+            contentData.innerHTML = '';
+
+            //Obtener los objetos dentro del array articles y acceder a sus atributos
             data.articles.forEach(element => {
                 const divx = document.createElement("div");
 
-                divx.classList.add("col-md-6");
+                divx.classList.add("col-md-6","mb-4");
                 divx.innerHTML = `
-                <div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">${element.title}</h5>
-                        <img src = "${element.urlToImage}"></img>
-                        <p class="card-text">Altura: ${element.description}</p>
-                        <p class="card-text">Altura: ${element.source.name}</p>
-                         <p class="card-text">Altura: ${element.publishAt}</p>
-                        <a href="${element.url}" class="card-link">Leer más</a>
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title mb-3 fw-semibold">${element.title}</h5>
+                        <img src="${element.urlToImage || 'alt=No existe imagen'}" 
+                        class="card-img-top img-fluid" style="max-height: 180px; object-fit: cover;"
+                         onerror="this.outerHTML='<div class=&quot;d-flex align-items-center justify-content-center bg-light&quot; style=&quot;height:180px;&quot;><span class=&quot;text-muted&quot;>No existe imagen</span></div>'">
+                        <p class="card-text text-muted mb-3">${element.description}</p>
+                        <p class="card-text">${element.source.name}</p>
+                        <p class="card-text">${new Date(element.publishedAt).toLocaleDateString()}</p>
+                        <a href="${element.url}" target="_blank" class="card-link">Leer más</a>
                     </div>
                 </div>`
 
                 contentData.appendChild(divx);
             });
+            }
 
-             contentData.innerHTML = "";
+            else{ //Si no hay resultados
+                 contentData.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+               No hay resultados de noticias
+            </div>
+            `;
+            }
         }
         
-        else{
+        else{ //Si el campo de qInput esta vacío
             contentData.innerHTML = `
             <div class="alert alert-danger" role="alert">
-               Hay campos faltantes
+               Mínimanente debe de haber algo en palabra clave
             </div>
             `;
         }
        
 
-    }catch(error){ //Si no hay noticias
+    }catch(error){ //Error 
         
         contentData.innerHTML = `
             <div class="alert alert-danger" role="alert">
-                Noticias no encontradas
+                Error al consultar la API
             </div>`;
     }
 }
