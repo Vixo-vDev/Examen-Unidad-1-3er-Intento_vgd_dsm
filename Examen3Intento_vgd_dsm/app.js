@@ -16,9 +16,12 @@ const getNews = async () => {
              const response = await fetch(
             `https://newsapi.org/v2/everything?q=${qInput.value}&from=${fromInput.value}&to=${toInput.value}&sortBy=popularity&apiKey=9bdb3191bc1f4b39a4099b64e9a635d7`); //Endpoint
 
+            //Imprimir por consola la respuesta de la petición
              console.log(response); 
 
              const data =  await response.json();
+
+             //Contenido de la respuesta en JSON
              console.log(data);
 
             //Limpieza de variables
