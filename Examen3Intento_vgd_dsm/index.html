@@ -15,6 +15,43 @@
             </div>
         </div>
     </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-3">
+                <form>
+                    <div class="mb-3">
+                        <label for="qInput" class="form-label">Palabra clave</label>
+                        <input type="text" class="form-control" id="qInput" placeholder="Ej. tecnología, deportes">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fromInput" class="form-label">Desde:</label>
+                        <input type="date" class="form-control" id="fromInput">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="toInput" class="form-label">Hasta:</label>
+                        <input type="date" class="form-control" id="toInput">
+                    </div>
+
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-outline-success" id="btnGetResultado">
+                            Buscar
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <div id="contentData" class="row mt-5">
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="app.js"></script>
     
 </body>
 </html>
