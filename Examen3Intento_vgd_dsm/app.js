@@ -11,7 +11,7 @@ const getNews = async () => {
     //Try catch para mostrar texto si no hay ningún resultado
     try{
         //Validar que ningún campo esté vacío
-        if(!(qInput.value.trim() === "") || !(fromInput.value.trim() === "") || !(toInput.value.trim() === "")){
+        if(!(qInput.value.trim() === "")){
 
              const response = await fetch(
             `https://newsapi.org/v2/everything?q=${qInput.value}&from=${fromInput.value}&to=${toInput.value}&sortBy=popularity&apiKey=9bdb3191bc1f4b39a4099b64e9a635d7`); //Endpoint
@@ -20,6 +20,25 @@ const getNews = async () => {
 
              const data =  await response.json();
              console.log(data);
+
+            data.articles.forEach(element => {
+                const divx = document.createElement("div");
+
+                divx.classList.add("col-md-6");
+                divx.innerHTML = `
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${element.title}</h5>
+                        <img src = "${element.urlToImage}"></img>
+                        <p class="card-text">Altura: ${element.description}</p>
+                        <p class="card-text">Altura: ${element.source.name}</p>
+                         <p class="card-text">Altura: ${element.publishAt}</p>
+                        <a href="${element.url}" class="card-link">Leer más</a>
+                    </div>
+                </div>`
+
+                contentData.appendChild(divx);
+            });
 
              contentData.innerHTML = "";
         }
