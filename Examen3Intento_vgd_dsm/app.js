@@ -10,10 +10,28 @@ const getNews = async () => {
 
     //Try catch para mostrar texto si no hay ningún resultado
     try{
-        const response = await fetch(
+        //Validar que ningún campo esté vacío
+        if(!(qInput.value.trim() === "") || !(fromInput.value.trim() === "") || !(toInput.value.trim() === "")){
+
+             const response = await fetch(
             `https://newsapi.org/v2/everything?q=${qInput.value}&from=${fromInput.value}&to=${toInput.value}&sortBy=popularity&apiKey=9bdb3191bc1f4b39a4099b64e9a635d7`); //Endpoint
 
+             console.log(response); 
+
+             const data =  await response.json();
+             console.log(data);
+
              contentData.innerHTML = "";
+        }
+        
+        else{
+            contentData.innerHTML = `
+            <div class="alert alert-danger" role="alert">
+               Hay campos faltantes
+            </div>
+            `;
+        }
+       
 
     }catch(error){ //Si no hay noticias
         
